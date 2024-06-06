@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary: #000;
+}
+
+body {
+  background-color: #ffffff;
+  font-size: 12px;
+  font-family: "Montserrat", sans-serif !important;
+  color: #000000;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.linkButton a {
+  text-decoration: none;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  padding: 0;
+}
+
+.ui-menubar {
+  background: transparent !important;
+  border: none !important;
+  padding: 8px 20px !important;
+  margin: 0;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+ul[role="menubar"] {
+  display: flex;
+}
+
+/* ul[role="menubar"] > li:first-child {
+  margin-right: auto !important;
+} */
+
+ul[role="menubar"] > .ui-menubar-options {
+  margin-left: auto !important;
+}
+
+ul[role="menubar"] > li > a > span {
+  transition: color 0.2s ease, scale 0.2s ease, text-shadow 0.3s ease;
+}
+
+ul[role="menubar"] > li:not(:first-child) > a.ui-state-hover > span {
+  color: var(--primary) !important;
+}
+
+ul[role="menubar"]
+  > li:not(:first-child)
+  > a.ui-state-hover
+  > span.ui-menuitem-text {
+  text-shadow: 0 0 0.9px var(--primary), 0 0 0.9px var(--primary) !important;
+}
+
+ul[role="menubar"] > li:first-child .ui-menuitem-text {
+  font-weight: bold !important;
+}
+
+ul[role="menubar"] > li > a {
+  background: unset !important;
+}
+
+.ui-widget,
+.ui-widget .ui-widget {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+td[role="gridcell"] {
+  border: 0 !important;
+  padding: 0 8px 20px 0 !important;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  padding: 0;
+}
