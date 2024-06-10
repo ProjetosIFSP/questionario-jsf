@@ -10,26 +10,28 @@
   <body>
     <ui:composition template="./WEB-INF/template.xhtml">
       <ui:define name="content">
-        <div class="card">
+        <div class="login-card">
           <h:form>
-            <p:panelGrid columns="2">
-              <p:outputLabel for="@next" value="#{msg['login.username']}" />
+            <span class="ui-float-label">
               <p:inputText
-                value="#{pessoaController.pessoa.login}"
+                value="#{usuarioController.usuario.username}"
                 required="true"
                 requiredMessage="Informe o Login."
               />
+              <p:outputLabel for="@previous" value="#{msg['login.username']}" />
+            </span>
 
-              <p:outputLabel for="@next" value="#{msg['login.password']}" />
+            <span class="ui-float-label">
               <p:password
-                value="#{pessoaController.pessoa.senha}"
+                value="#{usuarioController.usuario.pass}"
                 required="true"
                 requiredMessage="Informe a Senha."
               />
-            </p:panelGrid>
+              <p:outputLabel for="@previous" value="#{msg['login.password']}" />
+            </span>
             <p:commandButton
               value="#{msg['login.submit']}"
-              action="#{pessoaController.login()}"
+              action="#{usuarioController.login()}"
               update="growl"
             />
           </h:form>

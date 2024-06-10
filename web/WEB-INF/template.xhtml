@@ -18,29 +18,58 @@
     <f:view>
       <div
         id="content"
-        class="center_content"
-        style="margin-left: 120px; margin-right: 120px"
+        class="center_content#{themeController.dark ? ' dark' : ''}"
       >
         <p:growl id="growl" showDetail="true" showSummary="false" life="3000" />
         <header id="top" class="top">
           <ui:insert name="top">
             <h:form>
               <p:menubar>
-                <p>Olá, #{usuarioController.usuarioLogado.nome}!</p>
+                <p:menuitem
+                  rendered="#{usuarioController.usuarioLogado != null and formularioController.formulario == null}"
+                  value="OLÁ, #{usuarioController.usuarioLogado.nome.toUpperCase()}!"
+                />
+                <p:menuitem
+                  rendered="#{formularioController.formulario != null}"
+                  value="#{formularioController.formulario.titulo.toUpperCase()}"
+                />
+                <p:menuitem
+                  rendered="#{formularioController.formulario == null and usuarioController.usuarioLogado == null}"
+                  value="FP2 FORMS"
+                />
+
                 <f:facet name="options">
                   <div class="logout">
-                    <p:menuitem
-                      value="Logout"
-                      action="#{pessoaController.logout()}"
+                    <p:commandButton
+                      styleClass="ui-button-flat ui-button-plain"
+                      value="Desconectar"
+                      action="#{usuarioController.logout()}"
                       update="@form"
                       icon="pi pi-sign-out"
-                      rendered="#{pessoaController.pessoaLogada != null}"
+                      rendered="#{usuarioController.usuarioLogado != null}"
                     />
                   </div>
                 </f:facet>
               </p:menubar>
+              <div class="subtitle">
+                <ui:insert name="subtitle">
+                  <h:outputText
+                    rendered="#{formularioController.formulario == null and usuarioController.usuarioLogado == null}"
+                    value="Seja bem-vindo!"
+                  />
+                  <h:outputText
+                    rendered="#{formularioController.formulario != null}"
+                    value="Seja bem-vindo!"
+                  />
+                  <h:outputText
+                    rendered="#{formularioController.formulario == null and usuarioController.usuarioLogado != null}"
+                    value="Você possui #{usuarioController.usuarioLogado.getFormulariosAtivos() != null ? usuarioController.usuarioLogado.getFormulariosAtivos().size() : ''} formulários disponíveis!"
+                  />
+                </ui:insert>
+              </div>
             </h:form>
           </ui:insert>
+          <hr />
         </header>
         <ui:insert name="content"></ui:insert>
       </div>

@@ -1,7 +1,8 @@
 package br.edu.ifsp.pep.listener;
 
-import br.edu.ifsp.pep.controller.PessoaController;
-import br.edu.ifsp.pep.model.Pessoa;
+import br.edu.ifsp.pep.controller.UsuarioController;
+import br.edu.ifsp.pep.controller.ThemeController;
+import br.edu.ifsp.pep.model.Usuario;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.PhaseEvent;
 import jakarta.faces.event.PhaseId;
@@ -12,7 +13,10 @@ import java.io.IOException;
 public class Auth implements PhaseListener {
 
     @Inject
-    private PessoaController pessoaController;
+    private UsuarioController usuarioController;
+
+    @Inject
+    private ThemeController themeController;
 
     @Override
     public void afterPhase(PhaseEvent event) {
@@ -20,29 +24,33 @@ public class Auth implements PhaseListener {
         FacesContext ctx = event.getFacesContext();
         String pagina = ctx.getViewRoot().getViewId();
 
-        Pessoa pessoaLogada = pessoaController.getPessoaLogada();
+        boolean isDark = themeController.getDark();
+        Usuario usuarioLogado = usuarioController.getUsuarioLogado();
 
-        if (pessoaLogada == null && (!pagina.startsWith("/login.xhtml")
-            && !pagina.startsWith("/unauthorized.xhtml")
-            && !pagina.startsWith("/financeiro/report.xhtml")
-            && !pagina.startsWith("/financeiro/list.xhtml")
-            && !pagina.startsWith("/chart.xhtml"))) {
+        // Colocar validacao de token
+        if (usuarioLogado == null && (!pagina.startsWith("/login.xhtml"))) {
+            if (isDark) {
+                themeController.setDark(false);
+            }
             redirect(ctx, "/login.xhtml");
-        } else if (pessoaLogada != null && pagina.startsWith("/login.xhtml")) {
+        } else if (usuarioLogado != null && pagina.startsWith("/login.xhtml")) {
+            if (!isDark) {
+                themeController.setDark(true);
+            }
             redirect(ctx, "/index.xhtml");
-        } else if (pessoaLogada != null
-                    && !pessoaLogada.getTipo().getAcessos().contains(pagina)
-                    && !pagina.startsWith("/financeiro/report.xhtml")
-                    && !pagina.startsWith("/financeiro/list.xhtml")
-                    && !pagina.startsWith("/unauthorized.xhtml")
-                    && !pagina.startsWith("/chart.xhtml")) {
+        } else if (usuarioLogado != null
+                && !pagina.startsWith("/unauthorized.xhtml")
+                && !pagina.startsWith("/index.xhtml")) {
+            if (isDark) {
+                themeController.setDark(false);
+            }
             redirect(ctx, "/unauthorized.xhtml");
         }
     }
 
     @Override
     public void beforePhase(PhaseEvent event) {
-      //System.out.println("antes da fase: " + event.getPhaseId());
+        // System.out.println("antes da fase: " + event.getPhaseId());
     }
 
     @Override
