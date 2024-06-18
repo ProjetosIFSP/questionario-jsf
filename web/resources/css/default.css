@@ -21,7 +21,9 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
+  width: 100dvw;
 }
 
 body {
@@ -31,6 +33,11 @@ body {
   color: black;
   margin: 0 !important;
   padding: 0 !important;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 body:has(.dark) {
@@ -49,6 +56,11 @@ body:has(.dark) {
     background-color: white !important;
     color: black !important;
   }
+
+  .form-fields & {
+    background-color: #000 !important;
+    color: #fff !important;
+  }
 }
 
 .ui-button.ui-widget.ui-button-flat.ui-button-plain {
@@ -61,6 +73,10 @@ body:has(.dark) {
   .dark & {
     color: white !important;
   }
+
+  .form-fields & {
+    color: #000 !important;
+  }
 }
 
 .ui-button.ui-widget.ui-state-hover:not(.ui-button-flat) {
@@ -68,6 +84,10 @@ body:has(.dark) {
 
   .dark & {
     background-color: #e9e6de !important;
+  }
+
+  .form-fields & {
+    background-color: #222 !important;
   }
 }
 
@@ -77,6 +97,10 @@ body:has(.dark) {
 
   .dark & {
     background-color: #222 !important;
+  }
+
+  .form-fields & {
+    background-color: #e9e6de !important;
   }
 }
 
@@ -233,7 +257,7 @@ table.ui-panelgrid td[role="gridcell"] {
 .ui-inputfield {
   width: 100%;
   border: none !important;
-  background-color: #fff !important;
+  background-color: #e9e6de !important;
   border-radius: 17.5px !important;
   padding: 10px 20px !important;
 }
@@ -253,4 +277,283 @@ table.ui-panelgrid td[role="gridcell"] {
   flex-direction: column;
   height: 100%;
   margin: 0 120px;
+}
+
+/* ---------------  DATA TABLE  --------------- */
+
+.content .ui-datatable {
+  margin-top: 8px !important;
+}
+
+.content .ui-datatable thead {
+  display: none !important;
+}
+
+.ui-datatable .ui-datatable-data > tr {
+  background-color: transparent !important;
+
+  .form-list &:not(.ui-datatable-empty-message):hover {
+    background-color: #222 !important;
+  }
+}
+
+body .ui-datatable .ui-datatable-data > tr > td {
+  border: none !important;
+  padding: 8px !important;
+
+  &:first-child {
+    border-radius: 8px 0 0 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  &:last-child {
+    border-radius: 0 8px 8px 0 !important;
+  }
+}
+
+body .ui-datatable .ui-datatable-data > tr.ui-datatable-empty-message {
+  color: #888 !important;
+}
+
+.form-list .ui-datatable .ui-datatable-data > tr {
+  display: table-row;
+}
+
+.form-list .ui-datatable table .data-formulario {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #888 !important;
+  margin-left: 32px;
+  text-align: right;
+}
+
+.form-list .ui-datatable table .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-list .ui-datatable table .title {
+  font-weight: normal !important;
+  color: white !important;
+}
+
+.form-list .ui-datatable table .description {
+  max-height: 50px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-list .ui-datatable table .actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --------------- FORMULARIO FORM ---------------- */
+
+.ui-button.ui-widget.new-formulario-button:not(.ui-button-flat) {
+  border-radius: 75px !important;
+  margin: 0 120px -150px auto !important;
+  width: 150px !important;
+  height: 150px !important;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  transform: translate(-120px, -91px) !important;
+  align-items: center;
+}
+
+.new-formulario-button > span {
+  height: 150px !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+.dark .ui-button.ui-widget.new-formulario-button.close:not(.ui-button-flat) {
+  background-color: rgb(145, 18, 18) !important;
+}
+
+.dark .new-formulario-button.close > span {
+  color: #f5f3e8 !important;
+}
+
+.content .form-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ---------------- FORM CONSTRUCT ----------------- */
+
+.form-index {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+form .content {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  height: 100%;
+  flex: 1;
+}
+
+/* ---------------- FIELDSET ----------------- */
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 75px;
+  background-color: #e9e6de;
+  border-radius: 8px 8px 0 0;
+  justify-self: stretch;
+  transition: all ease 0.4s;
+  color: #000;
+}
+
+.form-fields .ui-outputpanel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.form-fields .ui-outputpanel .fields > .ui-inputfield {
+  min-width: calc(50dvw - 128px);
+  min-width: calc(50vw - 128px);
+}
+
+.d-none {
+  opacity: 0;
+  visibility: hidden;
+  nav-index: -1;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.ui-widget.title-field {
+  font-family: "cassannet_plusregular" !important;
+  font-size: 24px !important;
+  color: #000 !important;
+  margin: 32px 0 0 0 !important;
+}
+
+.ui-widget.title-field:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-text-fill-color: #000;
+}
+
+.ui-widget.title-field::-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-text-fill-color: #000;
+}
+
+.date-fields {
+  display: flex;
+  gap: 16px;
+}
+
+.ui-trigger-calendar {
+  display: flex;
+}
+
+.ui-trigger-calendar > .ui-button.ui-widget:not(.ui-button-flat) {
+  border-radius: 50% !important;
+  padding: 0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  transform: scaleX(1.15) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ddd !important;
+  color: #555 !important;
+}
+
+.ui-trigger-calendar
+  > .ui-button.ui-widget.ui-state-hover:not(.ui-button-flat) {
+  background-color: #ccc !important;
+  color: #000 !important;
+}
+
+.ui-trigger-calendar .ui-inputfield {
+  width: 200px !important;
+}
+
+.form-fields .ui-outputpanel > .form-buttons {
+  width: calc(100% - 80px) !important;
+  margin: auto 40px 0 40px !important;
+  padding-bottom: 16px !important;
+  display: flex;
+  gap: 8px;
+  bottom: 0;
+  position: sticky;
+}
+
+.form-fields .ui-outputpanel > .form-buttons .ui-button {
+  flex-grow: 1;
+  background-color: #555 !important;
+}
+
+.form-fields .ui-outputpanel .ui-button.ui-button-flat.ui-state-hover {
+  background-color: #f5f3e8 !important;
+}
+
+.form-fields .ui-outputpanel .ui-button.ui-button-flat.ui-state-focus {
+  background-color: #f5f3e8 !important;
+}
+
+.form-fields .ui-outputpanel > .form-buttons .ui-button:last-child {
+  flex-grow: 5;
+  background-color: #000 !important;
+}
+
+.form-fields .ui-button.ui-widget.ui-button-flat.ui-button-plain.new-question {
+  margin-left: 16px;
+  color: #555 !important;
+}
+
+body .ui-datascroller .ui-datascroller-content {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* ---------------- QUESTIONS ----------------- */
+
+.form-fields .ui-datatable {
+  margin: 16px 16px 0 16px !important;
+  width: calc(100% - 32px) !important;
+}
+
+.question-title {
+  display: flex !important;
+  gap: 16px !important;
+}
+
+.question-title .number {
+  font-weight: bold !important;
+  font-size: 20px !important;
+  color: #555 !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  text-align: right !important;
+}
+
+.form-fields input.field {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 16px !important;
+  outline: none !important;
+}
+
+.fields > .question-title {
+  margin: 16px 16px 0 16px !important;
 }

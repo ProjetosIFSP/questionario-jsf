@@ -15,6 +15,9 @@ public class UsuarioController implements java.io.Serializable {
   @Inject
   private ThemeController themeController;
 
+  @Inject
+  private FormularioController formularioController;
+
   private Usuario usuarioLogado;
   private Usuario usuario = new Usuario();
 
@@ -24,6 +27,7 @@ public class UsuarioController implements java.io.Serializable {
       if (this.usuarioLogado != null) {
         this.usuario = new Usuario();
         themeController.setDark(true);
+        formularioController.setFormularios();
         return "/index";
       }
     }
@@ -33,6 +37,7 @@ public class UsuarioController implements java.io.Serializable {
   public void logout() {
     this.usuarioLogado = null;
     this.usuario = new Usuario();
+    formularioController.unsetFormulario();
   }
 
   public Usuario getUsuarioLogado() {

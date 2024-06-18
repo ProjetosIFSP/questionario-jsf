@@ -10,9 +10,244 @@
   <body>
     <ui:composition template="./WEB-INF/template.xhtml">
       <ui:define name="content">
-        <div class="content">
-          <h2>Seja bem-vindo!</h2>
-        </div>
+        <h:form styleClass="form-index">
+          <p:defaultCommand target="dummy" />
+          <p:commandButton
+            id="dummy"
+            process="@none"
+            global="false"
+            style="display: none"
+          />
+          <p:commandButton
+            value="Criar novo Questionário"
+            styleClass="new-formulario-button"
+            action="#{formularioController.newFormulario()}"
+            update="@none @form"
+            process="@this"
+            rendered="#{formularioController.formulario == null}"
+          />
+
+          <p:commandButton
+            styleClass="new-formulario-button close"
+            action="#{formularioController.unsetFormulario()}"
+            update="@none @form"
+            process="@this"
+            value="Cancelar"
+            rendered="#{formularioController.formulario != null}"
+          />
+          <div class="content">
+            <div class="form-list">
+              <section>
+                <h2>Questionários ativos</h2>
+                <p:dataTable
+                  value="#{formularioController.getFormulariosAtivos()}"
+                  var="formulario"
+                  widgetVar="dt"
+                  rowIndexVar="rowIndex"
+                  styleClass="scroller"
+                  selectionMode="single"
+                  selection="#{formularioController.formulario}"
+                  rowKey="#{formulario.id}"
+                  cols="9"
+                >
+                  <p:ajax event="rowSelect" update="@form" />
+                  <p:column colspan="6">
+                    <span class="info">
+                      <span class="title">
+                        <h:outputText value="#{formulario.titulo}" />
+                      </span>
+                      <span class="description">
+                        <h:outputText value="#{formulario.descricao}" />
+                      </span>
+                    </span>
+                  </p:column>
+                  <p:column colspan="2">
+                    <span class="data-formulario">
+                      <span>
+                        <h:outputText
+                          value="#{formulario.getInicioFormatted()}"
+                        />
+                      </span>
+                      <span>
+                        <h:outputText
+                          value="#{formulario.getEntregaFormatted()}"
+                        />
+                      </span>
+                    </span>
+                  </p:column>
+                  <p:column styleClass="actions">
+                    <p:commandButton
+                      icon="pi pi-trash"
+                      action="#{formularioController.setFormularioDelete(formulario)}"
+                      update="@form"
+                      process="@form"
+                    />
+                  </p:column>
+                </p:dataTable>
+              </section>
+
+              <section>
+                <h2>Questionários inativos</h2>
+                <p:dataTable
+                  value="#{formularioController.getFormulariosInativos()}"
+                  var="formulario"
+                  styleClass="scroller"
+                >
+                  <div class="formulario">
+                    <p:column colspan="6">
+                      <div class="info">
+                        <div class="title">
+                          <h:outputText value="#{formulario.titulo}" />
+                        </div>
+                        <div class="description">
+                          <h:outputText value="#{formulario.descricao}" />
+                        </div>
+                      </div>
+                    </p:column>
+                    <p:column colspan="2">
+                      <div class="data-formulario">
+                        <div>
+                          <h:outputText
+                            value="#{formulario.getInicioFormatted()}"
+                          />
+                        </div>
+                        <div>
+                          <h:outputText
+                            value="#{formulario.getEntregaFormatted()}"
+                          />
+                        </div>
+                      </div>
+                    </p:column>
+                    <p:column>
+                      <div class="actions">
+                        <p:commandButton
+                          icon="pi pi-trash"
+                          action="#{formularioController.setFormularioDelete(formulario)}"
+                          update="@form"
+                          process="@form"
+                        />
+                      </div>
+                    </p:column>
+                  </div>
+                </p:dataTable>
+              </section>
+            </div>
+
+            <!-- trocar para != null -->
+            <div
+              class="form-fields #{formularioController.formulario != null ? '' : 'd-none'}"
+            >
+              <p:outputPanel id="fragment">
+                <p:autoUpdate />
+
+                <div class="fields">
+                  <p:inputText
+                    id="titulo"
+                    value="#{formularioController.formulario.titulo}"
+                    placeholder="Título"
+                    required="true"
+                    styleClass="title-field"
+                  />
+
+                  <div class="date-fields">
+                    <p:calendar
+                      id="dataInicio"
+                      value="#{formularioController.formulario.inicio}"
+                      placeholder="Data de início"
+                      showOn="button"
+                      pattern="dd/MM/yyyy"
+                      styleClass="date-field"
+                      mindate="#{Date.now()}"
+                    />
+                    <p:calendar
+                      id="dataFim"
+                      value="#{formularioController.formulario.entrega}"
+                      placeholder="Data de fim"
+                      showOn="button"
+                      pattern="dd/MM/yyyy"
+                      styleClass="date-field"
+                    />
+                  </div>
+
+                  <p:inputTextarea
+                    id="descricao"
+                    value="#{formularioController.formulario.descricao}"
+                    placeholder="Descrição"
+                    styleClass="description-field"
+                    maxlength="1000"
+                    rows="5"
+                    autoResize="false"
+                    style="resize: none"
+                  />
+
+                  <hr />
+
+                  <p:commandButton
+                    value="Nova pergunta"
+                    icon="pi pi-plus"
+                    process="@this"
+                    styleClass="ui-button-flat ui-button-plain new-question"
+                    action="#{formularioController.addQuestion()}"
+                    update="questoes"
+                    onstart="PF('questoes').addRow()"
+                  />
+
+                  <p:dataTable
+                    value="#{formularioController.formulario.questoes}"
+                    var="questao"
+                    widgetVar="questoes"
+                    styleClass="questions"
+                    id="questoes"
+                    rowIndexVar="index"
+                  >
+                    >
+                    <!--p:ajax
+                      event="rowEdit"
+                      listener="#{dtAddRowView.onRowEdit}"
+                      update=":form:msgs"
+                    /-->
+                    <p:column>
+                      <div class="question-title">
+                        <h:outputText
+                          styleClass="number"
+                          value="#{index + 1}"
+                        />
+                        <p:inputText
+                          value="#{questao.enunciado}"
+                          placeholder="Título"
+                          required="true"
+                          styleClass="field"
+                        />
+                      </div>
+                    </p:column>
+                    <p:column>
+                      <div class="question-answer"></div>
+                    </p:column>
+                  </p:dataTable>
+                </div>
+
+                <div class="form-buttons">
+                  <p:commandButton
+                    value="Tokens"
+                    update="@none @form"
+                    process="@none @form"
+                  />
+                  <p:commandButton
+                    value="Respostas"
+                    update="@none @form"
+                    process="@none @form"
+                  />
+                  <p:commandButton
+                    value="Salvar"
+                    action="#{formularioController.create()}"
+                    update="@form"
+                    process="@form"
+                  />
+                </div>
+              </p:outputPanel>
+            </div>
+          </div>
+        </h:form>
       </ui:define>
     </ui:composition>
   </body>

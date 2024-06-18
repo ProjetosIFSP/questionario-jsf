@@ -26,15 +26,15 @@
             <h:form>
               <p:menubar>
                 <p:menuitem
-                  rendered="#{usuarioController.usuarioLogado != null and formularioController.formulario == null}"
+                  rendered="#{usuarioController.usuarioLogado != null}"
                   value="OLÁ, #{usuarioController.usuarioLogado.nome.toUpperCase()}!"
                 />
                 <p:menuitem
-                  rendered="#{formularioController.formulario != null}"
+                  rendered="#{formularioController.formulario != null and usuarioController.usuarioLogado == null}"
                   value="#{formularioController.formulario.titulo.toUpperCase()}"
                 />
                 <p:menuitem
-                  rendered="#{formularioController.formulario == null and usuarioController.usuarioLogado == null}"
+                  rendered="#{usuarioController.usuarioLogado == null}"
                   value="FP2 FORMS"
                 />
 
@@ -58,12 +58,12 @@
                     value="Seja bem-vindo!"
                   />
                   <h:outputText
-                    rendered="#{formularioController.formulario != null}"
-                    value="Seja bem-vindo!"
+                    rendered="#{usuarioController.usuarioLogado != null}"
+                    value="Você possui #{formularioController.formularios != null ? formularioController.formularios.size() : ''} formulários disponíveis!"
                   />
                   <h:outputText
-                    rendered="#{formularioController.formulario == null and usuarioController.usuarioLogado != null}"
-                    value="Você possui #{usuarioController.usuarioLogado.getFormulariosAtivos() != null ? usuarioController.usuarioLogado.getFormulariosAtivos().size() : ''} formulários disponíveis!"
+                    rendered="#{formularioController.formulario != null and usuarioController.usuarioLogado == null}"
+                    value="Você está visualizando o formulário #{formularioController.formulario.titulo}!"
                   />
                 </ui:insert>
               </div>

@@ -18,7 +18,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "formulario")
 @NamedQueries({
-    @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f")
+    @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f"),
+    @NamedQuery(name = "Formulario.findByUsuario", query = "SELECT f FROM Formulario f WHERE f.usuario = :usuario"),
 })
 public class Formulario implements java.io.Serializable {
   @Id
@@ -66,6 +67,14 @@ public class Formulario implements java.io.Serializable {
 
   public LocalDate getEntrega() {
     return entrega;
+  }
+
+  public String getInicioFormatted() {
+    return inicio.getDayOfMonth() + "/" + String.format("%02d", inicio.getMonthValue()) + "/" + inicio.getYear();
+  }
+
+  public String getEntregaFormatted() {
+    return entrega.getDayOfMonth() + "/" + String.format("%02d", inicio.getMonthValue()) + "/" + entrega.getYear();
   }
 
   public String getTitulo() {

@@ -1,6 +1,7 @@
 package br.edu.ifsp.pep.listener;
 
 import br.edu.ifsp.pep.controller.UsuarioController;
+import br.edu.ifsp.pep.controller.FormularioController;
 import br.edu.ifsp.pep.controller.ThemeController;
 import br.edu.ifsp.pep.model.Usuario;
 import jakarta.faces.context.FacesContext;
@@ -18,6 +19,9 @@ public class Auth implements PhaseListener {
     @Inject
     private ThemeController themeController;
 
+    @Inject
+    private FormularioController formularioController;
+
     @Override
     public void afterPhase(PhaseEvent event) {
 
@@ -26,6 +30,10 @@ public class Auth implements PhaseListener {
 
         boolean isDark = themeController.getDark();
         Usuario usuarioLogado = usuarioController.getUsuarioLogado();
+
+        if (formularioController.getFormulario() != null) {
+            // formularioController.unsetFormulario();
+        }
 
         // Colocar validacao de token
         if (usuarioLogado == null && (!pagina.startsWith("/login.xhtml"))) {
